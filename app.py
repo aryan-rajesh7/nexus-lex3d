@@ -28,7 +28,6 @@ if mode == "Nexus Multimedia AI Generation System":
                 img = st.session_state.engine.generate_image(prompt)
                 st.session_state.last_image = img
                 
-                # This ensures the button comes back for the new image
                 if "video_path" in st.session_state:
                     del st.session_state["video_path"]
                 
@@ -51,16 +50,12 @@ if mode == "Nexus Multimedia AI Generation System":
                     del st.session_state["video_path"]
                     st.rerun()
 
-            # Scenario B: No Video yet -> Show Button
             else:
                 if st.button("Extend to Video (Img2Video)"):
                     with st.spinner("Animating... (Stable Video Diffusion)"):
-                        # Generate video
                         vid_path = st.session_state.engine.generate_video(st.session_state.last_image)
                         
-                        # Store in session state and reload
                         st.session_state["video_path"] = vid_path
-                        # Rerun forces the script to restart, hitting Scenario A above
                         st.rerun()
             
             st.markdown("---")
